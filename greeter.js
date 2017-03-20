@@ -1,14 +1,23 @@
 var UserModel = require("./user-model.js")
+var Database = require("./database.js"),
+    database = new Database()
 
 var user = new UserModel()
 //user.init({id: 100, name: 'thanh', birth: '22/0/000', createdBy: "10000" })
 
-console.log("TO JSON:", user.toJSON())
+console.log("TO JSON:", database)
 
-user.add(function(result, message) {
-    console.log("add user: " + result + " - message: ", message)
+
+database.connection(function (error, connection) {
+    user.all(connection, function (result, message) {
+        console.log("all user: " + result + " - message: ", message)
+        connection.release()
+        return
+    })
+
+    console.log("HURA....")
+    return
 })
 
-user.delete(function(result, message) {
-    console.log("delete user: " + result + " - message: ", message)
-})
+console.log("END")
+

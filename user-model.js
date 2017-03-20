@@ -1,4 +1,5 @@
 
+var mysql = require("mysql")
 var BaseModel = require("./base-model.js")
 
 var UserModel = function () {
@@ -11,7 +12,7 @@ var UserModel = function () {
 
     // Functions
 
-    this.add = function(callback){
+    this.add = function(connection, callback){
         if (this.id == null && this.id == undefined) {
             callback(false, "null id")
             return
@@ -23,13 +24,26 @@ var UserModel = function () {
         callback(true, null)
     }
 
-    this.delete = function(callback) {
+    this.delete = function(connection, callback) {
         if (this.id != null && this.id != undefined) {
             callback(true, null)
             return
         }
         //TODO: run SQL delete user in database and callback
         callback(false, "Delete null id")
+    }
+
+    this.all = function(connection, callback) {
+        var query = "SELECT * FROM ??";
+        var table = ["acount"];
+        query = mysql.format(query, table);
+        connection.query(query,function(err,rows){
+            if(err) {
+                callback(false, {"error" : {"code": 101, type: "MySQLQuery", "message" : "error executing MySQL query"}});
+            } else {
+                callback(true, {"data" : {"users" : JSON.stringify(rows)}, "paging" : {"next": null, "previous": null}});
+            }
+        });
     }
 }
 
