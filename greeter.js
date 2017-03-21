@@ -14,9 +14,6 @@ database.connection(function (error, connection) {
         connection.release()
         return
     })
-
-    console.log("HURA....")
-    return
 })
 
 console.log("END")

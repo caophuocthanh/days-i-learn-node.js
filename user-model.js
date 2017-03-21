@@ -39,9 +39,9 @@ var UserModel = function () {
         query = mysql.format(query, table);
         connection.query(query,function(err,rows){
             if(err) {
-                callback(false, {"error" : {"code": 101, type: "MySQLQuery", "message" : "error executing MySQL query"}});
+                callback(null);
             } else {
-                callback(true, {"data" : {"users" : JSON.stringify(rows)}, "paging" : {"next": null, "previous": null}});
+                callback(rows);
             }
         });
     }

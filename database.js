@@ -11,7 +11,6 @@ var Database = function () {
             debug: false
         })
         pool.getConnection(function(error, connection) {
-            this._connection = connection
             handle(error, connection)
         })
     }
